@@ -58,7 +58,7 @@ public class VehiculoController {
 			return new ResponseEntity(new CustomErrorType("Ningun Dato retornado"),HttpStatus.CONFLICT);
 		}
 		
-		return new ResponseEntity<Vehiculo>(vehiculo,HttpStatus.OK);
+		return new ResponseEntity<Vehiculo>(vehiculo, HttpStatus.OK);
 	}
 	
 	//

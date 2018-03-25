@@ -1,10 +1,7 @@
 package com.ceiba.parking.dao;
 
 import java.util.List;
-
 import com.ceiba.parking.model.Vehiculo;
-
-
 
 public interface VehiculoDao {
 

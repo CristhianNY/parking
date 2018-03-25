@@ -1,10 +1,9 @@
 package com.ceiba.parking.service;
 
-import java.util.List;
-
-
+import com.ceiba.parking.model.TipoVehiculo;
 
 public interface TipoVehiculoService {
-
+	
+	TipoVehiculo obtenerTipoVehiculoPorId(Long id);
 
 }

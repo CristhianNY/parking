@@ -64,10 +64,5 @@ public class VehiculoServiceImpl implements VehiculoService {
 	public Vehiculo obtenerVehiculoPorPlaca(String placa) {
 		// TODO Auto-generated method stub
 		return _vehiculoDao.obtenerVehiculoPorPlaca(placa);
-	}
-
-	
-
-	
-	
+	}	
 }

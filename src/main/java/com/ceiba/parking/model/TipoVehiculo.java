@@ -1,10 +1,12 @@
 package com.ceiba.parking.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,12 +15,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="tipovehiculo")
-public class TipoVehiculo {
+public class TipoVehiculo implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(
-	    strategy = GenerationType.IDENTITY
-	)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="idtipo",
 	    columnDefinition = "INT(11)"
 	)
@@ -32,6 +34,10 @@ public class TipoVehiculo {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public TipoVehiculo(Long idTipo) {
+		this.idTipo = idTipo;
+	} 	
 
 	public TipoVehiculo(Long idTipo ,String tipo) {
 		super();
@@ -59,10 +65,4 @@ public class TipoVehiculo {
 	public void setVehiculos(Collection<Vehiculo> vehiculos) {
 		this.vehiculos = vehiculos;
 	}
-
-	
-	
-
-	
-	
 }

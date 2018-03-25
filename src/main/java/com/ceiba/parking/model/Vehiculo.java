@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
@@ -31,10 +32,9 @@ public class Vehiculo implements Serializable{
 	@Column(name="fecha_entrada")
 	private String fechaEntrada;
 
-	
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="idTipoVehiculo")
-	@JsonIgnore
 	private TipoVehiculo tipoVehiculo;
 	//@ManyToOne(optional= true)
 	//@ManyToOne(fetch=FetchType.EAGER)
@@ -81,9 +81,11 @@ public class Vehiculo implements Serializable{
 	public void setFechaEntrada(String fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
+	@JsonIgnore
 	public TipoVehiculo getTipoVehiculo() {
 		return tipoVehiculo;
 	}
+	@JsonProperty
 	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
 	}
