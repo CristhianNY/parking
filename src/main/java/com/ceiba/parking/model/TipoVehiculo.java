@@ -19,7 +19,7 @@ public class TipoVehiculo {
 	@GeneratedValue(
 	    strategy = GenerationType.IDENTITY
 	)
-	@Column(name="idtipo",
+	@Column(name="idTipo",
 	    columnDefinition = "INT(11)"
 	)
 	private Long idTipo;

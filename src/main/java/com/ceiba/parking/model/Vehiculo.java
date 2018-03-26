@@ -33,8 +33,7 @@ public class Vehiculo implements Serializable{
 
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="idTipoVehiculo")
-	@JsonIgnore
+	@JoinColumn(name="idTipoVehiculo")	
 	private TipoVehiculo tipoVehiculo;
 	//@ManyToOne(optional= true)
 	//@ManyToOne(fetch=FetchType.EAGER)
