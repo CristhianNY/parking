@@ -75,6 +75,12 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 				.setParameter("placa", placa).uniqueResult();
 	}
 
+	@Override
+	public int obtenerCantidadDeVehiculos() {
+		// TODO Auto-generated method stub
+		return  (int) getSession().createQuery("select count(*) from Vehiculo").uniqueResult();
+	}
+
 	
 
 }

@@ -1,10 +1,13 @@
 package com.ceiba.parking.model;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,13 +16,16 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="tipovehiculo")
-public class TipoVehiculo {
+public class TipoVehiculo implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(
-	    strategy = GenerationType.IDENTITY
-	)
-	@Column(name="idTipo",
+
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idtipo",
+
 	    columnDefinition = "INT(11)"
 	)
 	private Long idTipo;
@@ -28,10 +34,18 @@ public class TipoVehiculo {
 	private String tipo;
 	@OneToMany(mappedBy="tipoVehiculo")		
 	private Collection<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
+	@Column(name="precioHora")
+	private BigDecimal precioHora;
+	@Column(name="precioDia")
+	private BigDecimal precioDia;
 	public TipoVehiculo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public TipoVehiculo(Long idTipo) {
+		this.idTipo = idTipo;
+	} 	
 
 	public TipoVehiculo(Long idTipo ,String tipo) {
 		super();
@@ -60,9 +74,21 @@ public class TipoVehiculo {
 		this.vehiculos = vehiculos;
 	}
 
-	
-	
+	public BigDecimal getPrecioHora() {
+		return precioHora;
+	}
 
+	public void setPrecioHora(BigDecimal precioHora) {
+		this.precioHora = precioHora;
+	}
+
+	public BigDecimal getPrecioDia() {
+		return precioDia;
+	}
+
+	public void setPrecioDia(BigDecimal precioDia) {
+		this.precioDia = precioDia;
+	}
 	
 	
 }

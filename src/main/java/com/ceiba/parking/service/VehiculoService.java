@@ -1,5 +1,6 @@
 package com.ceiba.parking.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.ceiba.parking.model.Vehiculo;
@@ -21,4 +22,6 @@ void guardarVehiculo(Vehiculo vehiculo);
     
     Vehiculo obtenerVehiculoPorCilindraje(String  cilindraje );
     Vehiculo obtenerVehiculoPorPlaca(String placa);
+    int obtenerCantidadDeVehiculos();
+    BigDecimal verCobroPorPlaca(String placa);
 }

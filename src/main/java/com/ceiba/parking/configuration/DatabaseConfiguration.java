@@ -56,6 +56,7 @@ public class DatabaseConfiguration {
 		return properties;
 		
 	}
+	
 	@Bean
 	@Autowired
 	public HibernateTransactionManager transactionManager() {

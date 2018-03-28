@@ -1,6 +1,8 @@
 package com.ceiba.parking.model;
 
 import java.io.Serializable;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
@@ -27,11 +32,11 @@ public class Vehiculo implements Serializable{
 	private String placa;
 	@Column(name="cilindraje")
 	private int cilindraje;	
-	
+	//@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="fecha_entrada")
-	private String fechaEntrada;
+	private Date fechaEntrada;
 
-	
+	@JsonBackReference
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="idTipoVehiculo")	
 	private TipoVehiculo tipoVehiculo;
@@ -41,7 +46,7 @@ public class Vehiculo implements Serializable{
 	
 
 	
-	public Vehiculo( String placa, int cilindraje, String fechaEntrada,TipoVehiculo tipoVehiculo) {
+	public Vehiculo( String placa, int cilindraje, Date fechaEntrada,TipoVehiculo tipoVehiculo) {
 		super();
 		this.placa = placa;
 		this.cilindraje = cilindraje;
@@ -74,15 +79,17 @@ public class Vehiculo implements Serializable{
 		this.cilindraje = cilindraje;
 	}
 
-	public String getFechaEntrada() {
+	public Date getFechaEntrada() {
 		return fechaEntrada;
 	}
-	public void setFechaEntrada(String fechaEntrada) {
+	public void setFechaEntrada(Date fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
+	
 	public TipoVehiculo getTipoVehiculo() {
 		return tipoVehiculo;
 	}
+	
 	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
 	}

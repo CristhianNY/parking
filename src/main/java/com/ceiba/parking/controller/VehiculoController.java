@@ -1,6 +1,10 @@
 package com.ceiba.parking.controller;
 
+import java.math.BigDecimal;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +62,23 @@ public class VehiculoController {
 			return new ResponseEntity(new CustomErrorType("Ningun Dato retornado"),HttpStatus.CONFLICT);
 		}
 		
-		return new ResponseEntity<Vehiculo>(vehiculo,HttpStatus.OK);
+		return new ResponseEntity<Vehiculo>(vehiculo, HttpStatus.OK);
+	}
+	
+	//GET
+	
+	@RequestMapping(value="/cobros/{placa}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<BigDecimal> obtenerPrecio(@PathVariable("placa") String placa){
+		if(placa ==null) {
+			return new ResponseEntity(new CustomErrorType("Placa es requeridad"),HttpStatus.CONFLICT);
+		}
+		BigDecimal cobro = _vHiculoService.verCobroPorPlaca(placa);
+		
+		if(cobro==null) {
+			return new ResponseEntity(new CustomErrorType("Ningun Dato retornado"),HttpStatus.CONFLICT);
+		}
+		
+		return new ResponseEntity<BigDecimal>(cobro, HttpStatus.OK);
 	}
 	
 	//
@@ -95,7 +115,7 @@ public class VehiculoController {
 		
 		return new ResponseEntity<Vehiculo>(HttpStatus.OK);
 	}
-	
+	// insertar Vehiculo 
 	//POST
 	@RequestMapping(value="/vehiculos", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<?> guardarVehiculo(@RequestBody Vehiculo vehiculo, UriComponentsBuilder uriComponentsBuilder){
@@ -103,9 +123,14 @@ public class VehiculoController {
 		if(vehiculo.getPlaca().equals(null)|| vehiculo.getPlaca().isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
-		if (_vHiculoService.obtenerVehiculoPorPlaca(vehiculo.getPlaca())!=null) {
+		vehiculo.setFechaEntrada(new Date());
 		
+		if (_vHiculoService.obtenerVehiculoPorPlaca(vehiculo.getPlaca())!=null) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
+		
+	
+		
 		
 		_vHiculoService.guardarVehiculo(vehiculo);
 		
