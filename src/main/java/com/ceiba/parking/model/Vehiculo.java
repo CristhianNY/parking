@@ -33,9 +33,12 @@ public class Vehiculo implements Serializable{
 	@Column(name="cilindraje")
 	private int cilindraje;	
 	//@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name="fecha_entrada")
 	private Date fechaEntrada;
 
+	@Column(name="estado")
+	private int estado;
 	@JsonBackReference
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="idTipoVehiculo")	
@@ -92,6 +95,12 @@ public class Vehiculo implements Serializable{
 	
 	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
+	}
+	public int getEstado() {
+		return estado;
+	}
+	public void setEstado(int estado) {
+		this.estado = estado;
 	}
 	
 	

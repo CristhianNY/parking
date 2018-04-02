@@ -58,6 +58,7 @@ public class VehiculoController {
 		}
 		Vehiculo vehiculo = _vHiculoService.obtenerVehiculoPorPlaca(placa);
 		
+		
 		if(vehiculo==null) {
 			return new ResponseEntity(new CustomErrorType("Ningun Dato retornado"),HttpStatus.CONFLICT);
 		}
@@ -148,7 +149,7 @@ public class VehiculoController {
 	@ResponseBody
 	public String index() {
 		
-		String response ="Bienvenido a el parqueadero Ceiba";
+		String response ="Welcom to parking ceiba";
 		
 		return response;
 	}
