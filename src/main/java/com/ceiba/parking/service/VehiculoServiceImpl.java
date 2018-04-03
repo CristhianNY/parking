@@ -3,14 +3,11 @@ package com.ceiba.parking.service;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +18,7 @@ import com.ceiba.parking.model.Vehiculo;
 import com.ceiba.parking.util.Constans;
 
 
-@Service("vehiculoService")
+@Service
 @Transactional
 public class VehiculoServiceImpl implements VehiculoService {
 
@@ -32,9 +29,40 @@ public class VehiculoServiceImpl implements VehiculoService {
 	private BigDecimal precioXHora;
 	
 	@Override
-	public void guardarVehiculo(Vehiculo vehiculo) {
+	public Vehiculo guardarVehiculo(Vehiculo vehiculo) {
 		// TODO Auto-generated method stub
-		_vehiculoDao.guardarVehiculo(vehiculo);
+		
+		if(verificarCupo(vehiculo)) {
+			
+		
+		
+		if(verificarExistenciaVehiculoParqueado(vehiculo.getPlaca())) {
+			return null;
+		}
+		
+			
+		if(verificarPlacaQueIniciaConA(vehiculo.getPlaca())) {
+			
+			
+			if(verificarSiEsDomingoOLunes(vehiculo.getFechaEntrada())) {
+				
+				_vehiculoDao.guardarVehiculo(vehiculo);
+				return vehiculo;
+				}else {
+					return null;
+				}
+			
+			
+		} else {
+			_vehiculoDao.guardarVehiculo(vehiculo);
+			
+			
+			return vehiculo;
+		}
+		
+	}
+		return null;
+	
 	}
 
 	@Override
@@ -73,6 +101,11 @@ public class VehiculoServiceImpl implements VehiculoService {
 		// TODO Auto-generated method stub
 		return _vehiculoDao.obtenerVehiculoPorCilindraje(cilindraje);
 	}
+	@Override
+	public Vehiculo obtenerVehiculoPorPlacaParqueado(String placa) {
+		// TODO Auto-generated method stub
+		return _vehiculoDao.obtenerVehiculoPorPlacaParqueado(placa);
+	}
 
 	@Override
 	public Vehiculo obtenerVehiculoPorPlaca(String placa) {
@@ -82,41 +115,57 @@ public class VehiculoServiceImpl implements VehiculoService {
 
 	
 	@Override
-	public int obtenerCantidadDeVehiculos() {
+	public int obtenerCantidadDeVehiculosMotos() {
 		// TODO Auto-generated method stub
-		return _vehiculoDao.obtenerCantidadDeVehiculos();
+		return _vehiculoDao.obtenerCantidadDeVehiculosMotos();
+	}
+	@Override
+	public int obtenerCantidadDeVehiculosCarros() {
+		// TODO Auto-generated method stub
+		return _vehiculoDao.obtenerCantidadDeVehiculosCarros();
 	}
 
+
 	@Override
-	public BigDecimal verCobroPorPlaca(String placa) {
+	public HashMap<String, BigDecimal> verCobroPorPlaca(String placa) {
+			
+		Vehiculo vehiculo = _vehiculoDao.obtenerVehiculoPorPlacaParqueado(placa);
 		
-		
-		Vehiculo vehiculo = _vehiculoDao.obtenerVehiculoPorPlaca(placa);
-		
-	 		
+		if(vehiculo == null) {
+			return null;
+		}
+			
+		HashMap<String, BigDecimal> bd_map = new HashMap<>();
 		
 		if(vehiculo.getCilindraje()>= Constans.Cilindraje) {
-			BigDecimal precioMoto = calcularPrecioSegunTiempo(calcularHoraVehiculoParqueado(vehiculo.getFechaEntrada()),vehiculo);
-		
-		int precio  = 	precioMoto.intValue();
-		
-		int	result = precio+2000;
-	
-		    BigDecimal precioMoto500 = new BigDecimal(result);
-			return precioMoto500;
+			return calcularPrecioMotosDeMasDe500(vehiculo, bd_map);
 		}
-		double horas= calcularHoraVehiculoParqueado(vehiculo.getFechaEntrada());
+		double horas= calcularHoraVehiculoParqueado(vehiculo.getFechaEntrada(),LocalDateTime.now());
 		 
 		 float dia = (float) (horas/24);
 		 float h2 = dia%1;
 		 
 		 if(h2>= 0.375) {
 			 dia = (int)dia+1;
-			
-			 return calcularPrecioPorDia(dia,vehiculo);
+			 bd_map.put("precio", calcularPrecioPorDia(dia,vehiculo));
+			 return bd_map;
 		 }
-		
-		return calcularPrecioSegunTiempo(calcularHoraVehiculoParqueado(vehiculo.getFechaEntrada()),vehiculo);
+		 bd_map.put("precio", calcularPrecioSegunTiempo(calcularHoraVehiculoParqueado(vehiculo.getFechaEntrada(),LocalDateTime.now()),vehiculo));
+		//return calcularPrecioSegunTiempo(calcularHoraVehiculoParqueado(vehiculo.getFechaEntrada()),vehiculo);
+		 return bd_map;
+	}
+
+	
+	//No se si probarlo o no
+	private HashMap<String, BigDecimal> calcularPrecioMotosDeMasDe500(Vehiculo vehiculo,
+			HashMap<String, BigDecimal> bd_map) {
+		BigDecimal precioMoto = calcularPrecioSegunTiempo(calcularHoraVehiculoParqueado(vehiculo.getFechaEntrada(),LocalDateTime.now()),vehiculo);
+		int precio  = 	precioMoto.intValue();
+		int	result = precio+2000;
+
+		BigDecimal precioMoto500 = new BigDecimal(result);
+		bd_map.put("precio", precioMoto500);
+		return bd_map;
 	}
 	
 	private BigDecimal calcularPrecioPorDia(float dia, Vehiculo vehiculo) {
@@ -129,7 +178,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 	//x = a valor de los decimales 
 	//h = horas
 
-	BigDecimal calcularPrecioSegunTiempo(double horas,Vehiculo vehiculo) {
+	public BigDecimal calcularPrecioSegunTiempo(double horas,Vehiculo vehiculo) {
 		
 		if((horas>=9)&&(horas<=24)) {
 			
@@ -155,14 +204,12 @@ public class VehiculoServiceImpl implements VehiculoService {
 	
 	
 	
-	   double calcularHoraVehiculoParqueado(Date fecha){
+	  public double calcularHoraVehiculoParqueado(Date fecha, LocalDateTime horaActual){
 		   
-	LocalDateTime fechEntrada = convertToLocalDateTimeViaInstant(fecha);
-	
-	LocalDateTime horaActual = LocalDateTime.now();
+	    LocalDateTime fechEntrada = convertToLocalDateTimeViaInstant(fecha);	
 		Duration duration = Duration.between(fechEntrada, horaActual);
 		
-	long minutos = 	duration.getSeconds()/60;	
+		long minutos = 	duration.getSeconds()/60;	
 	
 		float h= (float) minutos/60;
 		   if(h % 1 != 0) {
@@ -174,10 +221,81 @@ public class VehiculoServiceImpl implements VehiculoService {
 			}
 		return h;
 	}
+	  
+	
 	   
 	   public LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
 		    return dateToConvert.toInstant()
 		      .atZone(ZoneId.systemDefault())
 		      .toLocalDateTime();
 		}
+	   
+	   
+	   public boolean verificarPlacaQueIniciaConA(String placa) {
+			  
+		 
+
+			  
+		   String firstLetter = String.valueOf(placa.charAt(0));
+		    
+		    if(firstLetter.equals("A")||(firstLetter.equals("a"))) {
+		    	 return true;
+		    }
+			  return false;
+		  }
+	   
+	   
+	   public boolean verificarSiEsDomingoOLunes(Date fechaEntrada) {
+		   
+		   Calendar cal = Calendar.getInstance();
+		   cal.setTime(fechaEntrada);
+		   if ((cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)||(cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)) {
+		      return true;
+		    }
+		   return false;
+		   
+	   }
+	   
+	   
+	   public boolean verificarExistenciaVehiculoParqueado(String placa) {
+		   
+		   Vehiculo v =  obtenerVehiculoPorPlacaParqueado(placa);
+		   
+		   if(v != null) {
+			   return true;
+		   }
+		   return false;
+	   }
+	   
+	   
+	   public boolean verificarCupo(Vehiculo vehiculo) {
+		   
+		   Long tipo = vehiculo.getTipoVehiculo().getIdTipo();
+		   int cuposMotos = obtenerCantidadDeVehiculosMotos();
+		   int cuposCarros = obtenerCantidadDeVehiculosCarros();
+		   
+		   if(tipo.equals(1L) && (cuposMotos<Constans.CUPOS_MOTOS))  {
+			   
+			   return true;
+			   
+		   }
+		   
+		   if(tipo.equals(2L) && (cuposCarros<Constans.CUPOS_CARROS)){
+			   
+			   return true;
+			   
+		   }
+		   
+		   		   
+		   
+		   return false;
+	   }
+
+
+
+	   
+	   
+	   
+	   
+	   
 }

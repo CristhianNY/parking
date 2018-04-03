@@ -66,6 +66,9 @@ public class Vehiculo implements Serializable{
 	public Long getIdvehiculo() {
 		return idvehiculo;
 	}
+	public void setIdVehiculo(Long idvehiculo) {
+		this.idvehiculo = idvehiculo;
+	}
 
 	public String getPlaca() {
 		return placa;

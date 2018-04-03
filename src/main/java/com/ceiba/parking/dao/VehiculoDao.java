@@ -19,6 +19,9 @@ public interface VehiculoDao {
     
     Vehiculo obtenerVehiculoPorCilindraje(String  cilindraje );
     Vehiculo obtenerVehiculoPorPlaca(String  placa );
+    Vehiculo obtenerVehiculoPorPlacaParqueado(String  placa );
+    int obtenerCantidadDeVehiculosCarros();
+    int obtenerCantidadDeVehiculosMotos();
     int obtenerCantidadDeVehiculos();
 	
 }

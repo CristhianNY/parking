@@ -71,15 +71,38 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 	}
 	@Override
 	public Vehiculo obtenerVehiculoPorPlaca(String placa) {
-		return (Vehiculo)getSession().createQuery("from Vehiculo where placa = :placa")
+		return (Vehiculo)getSession().createQuery("from Vehiculo where placa = :placa and estado = 1")
+				.setParameter("placa", placa).uniqueResult();
+	}
+	@Override
+	public Vehiculo obtenerVehiculoPorPlacaParqueado(String placa) {
+		
+		return (Vehiculo)getSession().createQuery("from Vehiculo where placa = :placa and estado = 1")
 				.setParameter("placa", placa).uniqueResult();
 	}
 
 	@Override
 	public int obtenerCantidadDeVehiculos() {
 		// TODO Auto-generated method stub
-		return  (int) getSession().createQuery("select count(*) from Vehiculo").uniqueResult();
+		return  (int) getSession().createQuery("select count(*) from Vehiculo where estado = 1").uniqueResult();
 	}
+
+	@Override
+	public int obtenerCantidadDeVehiculosCarros() {
+		// TODO Auto-generated method stub
+		int resultado =  ((Number) getSession().createQuery("select count(*) from Vehiculo ve where ve.estado = 1 and ve.tipoVehiculo.idTipo = 2").uniqueResult()).intValue();
+		return resultado;
+	}
+
+	@Override
+	public int obtenerCantidadDeVehiculosMotos() {
+		// TODO Auto-generated method stub
+		int resultado =  ((Number) getSession().createQuery("select count(*) from Vehiculo ve where ve.estado = 1 and ve.tipoVehiculo.idTipo = 1").uniqueResult()).intValue();
+		
+		return resultado;
+	}
+
+	
 
 	
 

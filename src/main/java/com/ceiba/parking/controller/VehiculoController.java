@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ceiba.parking.model.Vehiculo;
 import com.ceiba.parking.service.VehiculoService;
+import com.ceiba.parking.util.Constans;
 import com.ceiba.parking.util.CustomErrorType;
 
 @Controller
@@ -45,41 +47,51 @@ public class VehiculoController {
 			return new ResponseEntity(new CustomErrorType("Ningun Dato retornado"),HttpStatus.CONFLICT);
 		}
 		
+		if(vehiculos == null) {
+			return new ResponseEntity(new CustomErrorType("Ya Esta parqueado"),HttpStatus.CONFLICT);
+		}
+		
 		return new  ResponseEntity<List<Vehiculo>>(vehiculos,HttpStatus.OK);
 	
 	}
 	
 	//GET
 	
+	public VehiculoController() {
+		
+		// TODO Auto-generated constructor stub
+	}
+
 	@RequestMapping(value="/vehiculos/{placa}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<Vehiculo> obtenerVehiculoPorPlaca(@PathVariable("placa") String placa){
 		if(placa ==null) {
-			return new ResponseEntity(new CustomErrorType("Placa es requeridad"),HttpStatus.CONFLICT);
+			return respondedorErrores("La Placa es requeridad");
 		}
 		Vehiculo vehiculo = _vHiculoService.obtenerVehiculoPorPlaca(placa);
 		
 		
 		if(vehiculo==null) {
-			return new ResponseEntity(new CustomErrorType("Ningun Dato retornado"),HttpStatus.CONFLICT);
+			return respondedorErrores("Ningun dato retornado");
 		}
 		
 		return new ResponseEntity<Vehiculo>(vehiculo, HttpStatus.OK);
 	}
-	
+
+
 	//GET
 	
 	@RequestMapping(value="/cobros/{placa}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<BigDecimal> obtenerPrecio(@PathVariable("placa") String placa){
+	public ResponseEntity<HashMap<String,BigDecimal>> obtenerPrecio(@PathVariable("placa") String placa){
 		if(placa ==null) {
 			return new ResponseEntity(new CustomErrorType("Placa es requeridad"),HttpStatus.CONFLICT);
 		}
-		BigDecimal cobro = _vHiculoService.verCobroPorPlaca(placa);
+		HashMap<String, BigDecimal> cobro = _vHiculoService.verCobroPorPlaca(placa);
 		
 		if(cobro==null) {
 			return new ResponseEntity(new CustomErrorType("Ningun Dato retornado"),HttpStatus.CONFLICT);
 		}
 		
-		return new ResponseEntity<BigDecimal>(cobro, HttpStatus.OK);
+		return new ResponseEntity<HashMap<String,BigDecimal>>(cobro, HttpStatus.OK);
 	}
 	
 	//
@@ -87,13 +99,14 @@ public class VehiculoController {
 	@RequestMapping(value="/vehiculos/{placa}", method = RequestMethod.PATCH, headers = "Accept=application/json")
 	
 	public ResponseEntity<Vehiculo> actualizarVehiculo(@PathVariable("placa") String placa,@RequestBody Vehiculo vehiculo){
-		Vehiculo currentVehiculo = _vHiculoService.obtenerVehiculoPorPlaca(placa);
+		Vehiculo currentVehiculo = _vHiculoService.obtenerVehiculoPorPlacaParqueado(placa);
 		if(currentVehiculo==null) {
-			return new ResponseEntity(new CustomErrorType("Ningun Dato retornado"),HttpStatus.CONFLICT);
+			return respondedorErrores("Ningun dato retornado");
 		}
 		currentVehiculo.setPlaca(vehiculo.getPlaca());
 		currentVehiculo.setCilindraje(vehiculo.getCilindraje());
 		currentVehiculo.setFechaEntrada(vehiculo.getFechaEntrada());
+		currentVehiculo.setEstado(vehiculo.getEstado());
 		_vHiculoService.actualizarVehiculo(currentVehiculo);
 		return new ResponseEntity<Vehiculo>(currentVehiculo,HttpStatus.OK);
 	}
@@ -104,14 +117,14 @@ public class VehiculoController {
 	
 	public ResponseEntity<Vehiculo> eliminarVehiculo(@PathVariable("placa") String placa){
 		if(placa ==null) {
-			return new ResponseEntity(new CustomErrorType("la placa es requeridad"),HttpStatus.CONFLICT);
+			return respondedorErrores("Placa Requeridad");
 		}
 		
 		Vehiculo vehiculo=  _vHiculoService.obtenerVehiculoPorPlaca(placa);
-		
 		if(vehiculo==null) {
-			return new ResponseEntity(new CustomErrorType("No existe el Vehiculo"),HttpStatus.CONFLICT);
+			return respondedorErrores("Vehiculo no existe");
 		}
+		
 		_vHiculoService.eliminarVehiculoPorPlaca(placa);
 		
 		return new ResponseEntity<Vehiculo>(HttpStatus.OK);
@@ -121,19 +134,44 @@ public class VehiculoController {
 	@RequestMapping(value="/vehiculos", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<?> guardarVehiculo(@RequestBody Vehiculo vehiculo, UriComponentsBuilder uriComponentsBuilder){
 		
-		if(vehiculo.getPlaca().equals(null)|| vehiculo.getPlaca().isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}
-		vehiculo.setFechaEntrada(new Date());
 		
-		if (_vHiculoService.obtenerVehiculoPorPlaca(vehiculo.getPlaca())!=null) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		vehiculo.setFechaEntrada(new Date());
+		Vehiculo currentVehiculo = _vHiculoService.obtenerVehiculoPorPlacaParqueado(vehiculo.getPlaca());
+	/**	if(currentVehiculo.getTipoVehiculo().getIdTipo() ==2) {
+			
+			int numeroDeCarros=	_vHiculoService.obtenerCantidadDeVehiculosCarros();
+			
+			if(numeroDeCarros >=Constans.CUPOS_CARROS) {
+				
+				return respondedorErrores("No hay cupos");
+			}
+				
 		}
+			if(currentVehiculo.getTipoVehiculo().getIdTipo() ==1) {
+			
+			int numeroDeMotos=	_vHiculoService.obtenerCantidadDeVehiculosMotos();
+			
+			if(numeroDeMotos >=Constans.CUPOS_MOTOS) {
+				
+				return respondedorErrores("No hay cupos");
+			}
+				
+		}**/
+		if(currentVehiculo != null) {
+			vehiculo.setIdVehiculo(currentVehiculo.getIdvehiculo());
+			
+			_vHiculoService.actualizarVehiculo(vehiculo);			
+		}
+		if(_vHiculoService.guardarVehiculo(vehiculo)== null) {
+			return respondedorErrores("No se puede ingresar el vehiculo");
+		}
+		
 		
 	
 		
 		
-		_vHiculoService.guardarVehiculo(vehiculo);
+		
+		
 		
 		HttpHeaders headers = new HttpHeaders();
 		Vehiculo vehiculo2=	_vHiculoService.obtenerVehiculoPorPlaca(vehiculo.getPlaca());
@@ -153,5 +191,10 @@ public class VehiculoController {
 		
 		return response;
 	}
+	
+	private ResponseEntity<Vehiculo> respondedorErrores(String mensaje) {
+		return new ResponseEntity(new CustomErrorType(mensaje),HttpStatus.CONFLICT);
+	}
+	
 	
 }
