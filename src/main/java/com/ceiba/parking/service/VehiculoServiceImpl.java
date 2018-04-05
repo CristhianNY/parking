@@ -32,8 +32,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 	public Vehiculo guardarVehiculo(Vehiculo vehiculo) {
 		// TODO Auto-generated method stub
 		
-		if(verificarCupo(vehiculo)) {
-			
+		if(verificarCupo(vehiculo)) {	
 		
 		
 		if(verificarExistenciaVehiculoParqueado(vehiculo.getPlaca())) {
@@ -85,11 +84,17 @@ public class VehiculoServiceImpl implements VehiculoService {
 	}
 
 	@Override
-	public void actualizarVehiculo(Vehiculo vehiculo) {
+	public void retirarVehiculo(Vehiculo vehiculo) {
 		// TODO Auto-generated method stub
-		_vehiculoDao.actualizarVehiculo(vehiculo);
+		_vehiculoDao.retirarVehiculo(vehiculo);
 	}
-
+	@Override
+	public void actualizarVehiculoAParqueado(Vehiculo vehiculo) {
+		// TODO Auto-generated method stub
+		vehiculo.setEstado(1);
+		vehiculo.setFechaEntrada(new Date());
+		_vehiculoDao.actualizarVehiculoAParqueado(vehiculo);
+	}
 	@Override
 	public Vehiculo obtenerVehiculoPorId(Long idVehiculo) {
 		// TODO Auto-generated method stub
@@ -112,6 +117,13 @@ public class VehiculoServiceImpl implements VehiculoService {
 		// TODO Auto-generated method stub
 		return _vehiculoDao.obtenerVehiculoPorPlaca(placa);
 	}
+	
+	@Override
+	public Vehiculo obtenerVehiculoGuardadoSinParquear(String placa) {
+		// TODO Auto-generated method stub
+		return _vehiculoDao.obtenerVehiculoGuardadoSinParquear(placa);
+	}
+
 
 	
 	@Override
@@ -268,6 +280,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 	   }
 	   
 	   
+	   
 	   public boolean verificarCupo(Vehiculo vehiculo) {
 		   
 		   Long tipo = vehiculo.getTipoVehiculo().getIdTipo();
@@ -290,6 +303,8 @@ public class VehiculoServiceImpl implements VehiculoService {
 		   
 		   return false;
 	   }
+
+
 
 
 

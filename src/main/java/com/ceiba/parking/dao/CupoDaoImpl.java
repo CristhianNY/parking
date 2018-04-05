@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import com.ceiba.parking.model.Cupo;
-import com.ceiba.parking.model.Vehiculo;
 @Repository
 @Transactional
 public class CupoDaoImpl extends AbstractSession implements CupoDao {

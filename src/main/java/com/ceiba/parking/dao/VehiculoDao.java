@@ -13,12 +13,14 @@ public interface VehiculoDao {
 	void eliminarVehiculoPorPlaca(String placa);
 	
 	
-	void actualizarVehiculo(Vehiculo vehiculo);
+	void retirarVehiculo(Vehiculo vehiculo);
+	void actualizarVehiculoAParqueado(Vehiculo vehiculo);
 	
     Vehiculo obtenerVehiculoPorId(Long idVehiculo);
     
     Vehiculo obtenerVehiculoPorCilindraje(String  cilindraje );
     Vehiculo obtenerVehiculoPorPlaca(String  placa );
+    Vehiculo obtenerVehiculoGuardadoSinParquear(String placa);
     Vehiculo obtenerVehiculoPorPlacaParqueado(String  placa );
     int obtenerCantidadDeVehiculosCarros();
     int obtenerCantidadDeVehiculosMotos();

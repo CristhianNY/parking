@@ -19,10 +19,12 @@ Vehiculo guardarVehiculo(Vehiculo vehiculo);
 	void eliminarVehiculoPorId(Long idVehiculo);
 	void eliminarVehiculoPorPlaca(String placa);
 	
-	void actualizarVehiculo(Vehiculo vehiculo);
+	void retirarVehiculo(Vehiculo vehiculo);
+	void actualizarVehiculoAParqueado(Vehiculo vehiculo);
     Vehiculo obtenerVehiculoPorId(Long idVehiculo);
     Vehiculo obtenerVehiculoPorCilindraje(String  cilindraje );
     Vehiculo obtenerVehiculoPorPlaca(String placa);
+    Vehiculo obtenerVehiculoGuardadoSinParquear(String placa);
     int obtenerCantidadDeVehiculosMotos();
     int obtenerCantidadDeVehiculosCarros();
     HashMap<String, BigDecimal> verCobroPorPlaca(String placa);

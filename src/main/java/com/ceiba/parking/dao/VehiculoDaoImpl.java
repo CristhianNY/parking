@@ -28,7 +28,7 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 		
 	//	return parqueaderoSession.getSession().createQuery("from Vehiculo").getResultList();
 		
-		return 	getSession().createQuery("from Vehiculo").list();
+		return 	getSession().createQuery("from Vehiculo where estado=1").list();
 		
 	}
 
@@ -51,11 +51,21 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 	}
 
 	@Override
-	public void actualizarVehiculo(Vehiculo vehiculo) {
+	public void retirarVehiculo(Vehiculo vehiculo) {
 		// TODO Auto-generated method stub
-		getSession().update(vehiculo);
+		getSession().createQuery("update Vehiculo c set c.estado = 2 where c.estado = :estado and c.placa = :placa")
+		.setParameter("estado", vehiculo.getEstado())
+		.setParameter("placa", vehiculo.getPlaca()).executeUpdate();
+		
 	}
 
+	@Override
+	public void actualizarVehiculoAParqueado(Vehiculo vehiculo) {
+		// TODO Auto-generated method stub
+		getSession().update(vehiculo);
+		//getSession().createQuery("update Vehiculo c set c.estado = 1 where c.estado = 2 and c.placa = :placa")
+		//.setParameter("placa", vehiculo.getPlaca()).executeUpdate();
+	}
 	@Override
 	public Vehiculo obtenerVehiculoPorId(Long idVehiculo) {
 		// TODO Auto-generated method stub
@@ -71,13 +81,20 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 	}
 	@Override
 	public Vehiculo obtenerVehiculoPorPlaca(String placa) {
-		return (Vehiculo)getSession().createQuery("from Vehiculo where placa = :placa and estado = 1")
+		return (Vehiculo)getSession().createQuery("from Vehiculo where placa = :placa ")
 				.setParameter("placa", placa).uniqueResult();
 	}
 	@Override
 	public Vehiculo obtenerVehiculoPorPlacaParqueado(String placa) {
 		
 		return (Vehiculo)getSession().createQuery("from Vehiculo where placa = :placa and estado = 1")
+				.setParameter("placa", placa).uniqueResult();
+	}
+
+	@Override
+	public Vehiculo obtenerVehiculoGuardadoSinParquear(String placa) {
+		// TODO Auto-generated method stub
+		return (Vehiculo)getSession().createQuery("from Vehiculo where placa = :placa and estado = 2")
 				.setParameter("placa", placa).uniqueResult();
 	}
 
@@ -101,6 +118,8 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 		
 		return resultado;
 	}
+
+
 
 	
 

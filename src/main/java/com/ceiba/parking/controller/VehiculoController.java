@@ -1,9 +1,7 @@
 package com.ceiba.parking.controller;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +21,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ceiba.parking.model.Vehiculo;
 import com.ceiba.parking.service.VehiculoService;
-import com.ceiba.parking.util.Constans;
 import com.ceiba.parking.util.CustomErrorType;
 
 @Controller
 @RequestMapping("/v1")
+@CrossOrigin(origins="http://localhost:4200",allowedHeaders="*")
 public class VehiculoController {
 
 	//Get
@@ -103,11 +102,9 @@ public class VehiculoController {
 		if(currentVehiculo==null) {
 			return respondedorErrores("Ningun dato retornado");
 		}
-		currentVehiculo.setPlaca(vehiculo.getPlaca());
-		currentVehiculo.setCilindraje(vehiculo.getCilindraje());
-		currentVehiculo.setFechaEntrada(vehiculo.getFechaEntrada());
-		currentVehiculo.setEstado(vehiculo.getEstado());
-		_vHiculoService.actualizarVehiculo(currentVehiculo);
+		
+		currentVehiculo.setEstado(1);
+		_vHiculoService.retirarVehiculo(currentVehiculo);
 		return new ResponseEntity<Vehiculo>(currentVehiculo,HttpStatus.OK);
 	}
 	
@@ -134,41 +131,23 @@ public class VehiculoController {
 	@RequestMapping(value="/vehiculos", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<?> guardarVehiculo(@RequestBody Vehiculo vehiculo, UriComponentsBuilder uriComponentsBuilder){
 		
-		
 		vehiculo.setFechaEntrada(new Date());
-		Vehiculo currentVehiculo = _vHiculoService.obtenerVehiculoPorPlacaParqueado(vehiculo.getPlaca());
-	/**	if(currentVehiculo.getTipoVehiculo().getIdTipo() ==2) {
-			
-			int numeroDeCarros=	_vHiculoService.obtenerCantidadDeVehiculosCarros();
-			
-			if(numeroDeCarros >=Constans.CUPOS_CARROS) {
-				
-				return respondedorErrores("No hay cupos");
-			}
-				
-		}
-			if(currentVehiculo.getTipoVehiculo().getIdTipo() ==1) {
-			
-			int numeroDeMotos=	_vHiculoService.obtenerCantidadDeVehiculosMotos();
-			
-			if(numeroDeMotos >=Constans.CUPOS_MOTOS) {
-				
-				return respondedorErrores("No hay cupos");
-			}
-				
-		}**/
+		vehiculo.setEstado(1);
+		Vehiculo currentVehiculo = _vHiculoService.obtenerVehiculoGuardadoSinParquear(vehiculo.getPlaca());
+
 		if(currentVehiculo != null) {
 			vehiculo.setIdVehiculo(currentVehiculo.getIdvehiculo());
+			currentVehiculo.setEstado(2);
 			
-			_vHiculoService.actualizarVehiculo(vehiculo);			
+			_vHiculoService.actualizarVehiculoAParqueado(vehiculo);			
+		}else {
+			if(_vHiculoService.guardarVehiculo(vehiculo)== null) {
+				return respondedorErrores("No se puede ingresar el vehiculo");
+			}
 		}
-		if(_vHiculoService.guardarVehiculo(vehiculo)== null) {
-			return respondedorErrores("No se puede ingresar el vehiculo");
-		}
-		
-		
 	
-		
+			
+	
 		
 		
 		

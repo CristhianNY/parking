@@ -1,8 +1,6 @@
 package com.ceiba.parking.model;
 
 import java.io.Serializable;
-
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,8 +15,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
@@ -33,7 +29,7 @@ public class Vehiculo implements Serializable{
 	@Column(name="cilindraje")
 	private int cilindraje;	
 	//@JsonFormat(pattern="yyyy-MM-dd")
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone = "America/Bogota")
 	@Column(name="fecha_entrada")
 	private Date fechaEntrada;
 
