@@ -9,6 +9,9 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+
+import javax.transaction.Transactional;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -111,6 +114,7 @@ public class VehiculoServiceTest {
 		assertEquals(true, verificarDia);
 	}
 	
+	@Transactional
 	@Test
 	public void guardarVehiculoTest() {
 		

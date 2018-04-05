@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ceiba.parking.model.Cupo;
-import com.ceiba.parking.model.Vehiculo;
 import com.ceiba.parking.service.CupoService;
 import com.ceiba.parking.util.CustomErrorType;
 
