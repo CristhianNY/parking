@@ -15,9 +15,7 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 
 	@Override
 	public void guardarVehiculo(Vehiculo vehiculo) {
-		// TODO Auto-generated method stub
-	//	parqueaderoSession.getSession().persist(vehiculo);
-	//	parqueaderoSession.getSession().getTransaction().commit();
+	
 		
 		getSession().persist(vehiculo);
 	}
@@ -26,7 +24,7 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 	public List<Vehiculo> obtenerTodosLosVehiculos() {
 	
 		
-	//	return parqueaderoSession.getSession().createQuery("from Vehiculo").getResultList();
+
 		
 		return 	getSession().createQuery("from Vehiculo where estado=1").list();
 		
@@ -43,7 +41,7 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 	
 	@Override
 	public void eliminarVehiculoPorPlaca(String placa) {
-		// TODO Auto-generated method stub
+	
 		Vehiculo vehiculo = obtenerVehiculoPorPlaca(placa);
 		if(vehiculo!=null) {
 			getSession().delete(vehiculo);
@@ -52,7 +50,7 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 
 	@Override
 	public void retirarVehiculo(Vehiculo vehiculo) {
-		// TODO Auto-generated method stub
+	
 		getSession().createQuery("update Vehiculo c set c.estado = 2 where c.estado = :estado and c.placa = :placa")
 		.setParameter("estado", vehiculo.getEstado())
 		.setParameter("placa", vehiculo.getPlaca()).executeUpdate();
@@ -61,21 +59,20 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 
 	@Override
 	public void actualizarVehiculoAParqueado(Vehiculo vehiculo) {
-		// TODO Auto-generated method stub
+	
 		getSession().update(vehiculo);
-		//getSession().createQuery("update Vehiculo c set c.estado = 1 where c.estado = 2 and c.placa = :placa")
-		//.setParameter("placa", vehiculo.getPlaca()).executeUpdate();
+		
 	}
 	@Override
 	public Vehiculo obtenerVehiculoPorId(Long idVehiculo) {
-		// TODO Auto-generated method stub
+		
 		
 		return (Vehiculo)getSession().get(Vehiculo.class, idVehiculo);
 	}
 
 	@Override
 	public Vehiculo obtenerVehiculoPorCilindraje(String cilindraje) {
-		// TODO Auto-generated method stub
+	
 		return (Vehiculo)getSession().createQuery("from Vehiculo where cilindraje = :cilindraje")
 				.setParameter("placa", cilindraje).uniqueResult();
 	}
@@ -93,27 +90,27 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 
 	@Override
 	public Vehiculo obtenerVehiculoGuardadoSinParquear(String placa) {
-		// TODO Auto-generated method stub
+		
 		return (Vehiculo)getSession().createQuery("from Vehiculo where placa = :placa and estado = 2")
 				.setParameter("placa", placa).uniqueResult();
 	}
 
 	@Override
 	public int obtenerCantidadDeVehiculos() {
-		// TODO Auto-generated method stub
+		
 		return  (int) getSession().createQuery("select count(*) from Vehiculo where estado = 1").uniqueResult();
 	}
 
 	@Override
 	public int obtenerCantidadDeVehiculosCarros() {
-		// TODO Auto-generated method stub
+		
 		int resultado =  ((Number) getSession().createQuery("select count(*) from Vehiculo ve where ve.estado = 1 and ve.tipoVehiculo.idTipo = 2").uniqueResult()).intValue();
 		return resultado;
 	}
 
 	@Override
 	public int obtenerCantidadDeVehiculosMotos() {
-		// TODO Auto-generated method stub
+		
 		int resultado =  ((Number) getSession().createQuery("select count(*) from Vehiculo ve where ve.estado = 1 and ve.tipoVehiculo.idTipo = 1").uniqueResult()).intValue();
 		
 		return resultado;
