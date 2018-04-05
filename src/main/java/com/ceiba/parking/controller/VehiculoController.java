@@ -53,11 +53,7 @@ public class VehiculoController {
 	
 	}
 	
-	public VehiculoController() {
-		
-		
-	}
-
+	
 	@RequestMapping(value="/vehiculos/{placa}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<Vehiculo> obtenerVehiculoPorPlaca(@PathVariable("placa") String placa){
 		if(placa ==null) {
@@ -101,7 +97,7 @@ public class VehiculoController {
 		
 		currentVehiculo.setEstado(1);
 		vHiculoService.retirarVehiculo(currentVehiculo);
-		return new ResponseEntity<Vehiculo>(currentVehiculo,HttpStatus.OK);
+		return new ResponseEntity<>(currentVehiculo,HttpStatus.OK);
 	}
 	
 	
@@ -120,7 +116,7 @@ public class VehiculoController {
 		
 		vHiculoService.eliminarVehiculoPorPlaca(placa);
 		
-		return new ResponseEntity<Vehiculo>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/vehiculos", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -154,7 +150,7 @@ public class VehiculoController {
 				.buildAndExpand(vehiculo2.getIdvehiculo())
 				.toUri());
 		
-		return new ResponseEntity<String>(headers,HttpStatus.CREATED);
+		return new ResponseEntity<>(headers,HttpStatus.CREATED);
 		
 	}
 	@RequestMapping("/prue")
