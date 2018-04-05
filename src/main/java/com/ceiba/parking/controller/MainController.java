@@ -11,8 +11,8 @@ public class MainController {
 	@ResponseBody
 	public String index() {
 		
-		String response ="Bienvenido a el parqueadero Ceiba";
+	
 		
-		return response;
+		return "Bienvenido a el parqueadero Ceiba";
 	}
 }

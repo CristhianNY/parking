@@ -28,13 +28,12 @@ import com.ceiba.parking.util.CustomErrorType;
 @CrossOrigin(origins="http://localhost:4200",allowedHeaders="*")
 public class VehiculoController {
 
-	//Get
+	
 	@Autowired
 	 VehiculoService _vHiculoService;
 	
-	//GET
 	
-	//@RequestMapping(value="/vehiculos", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	
 	@RequestMapping(value="/vehiculos", method = RequestMethod.GET, headers = "Accept=application/json")
 	@ResponseBody
 	public ResponseEntity<List<Vehiculo>> obtenerVehiculos(){
@@ -54,11 +53,9 @@ public class VehiculoController {
 	
 	}
 	
-	//GET
-	
 	public VehiculoController() {
 		
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@RequestMapping(value="/vehiculos/{placa}", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -77,7 +74,7 @@ public class VehiculoController {
 	}
 
 
-	//GET
+	
 	
 	@RequestMapping(value="/cobros/{placa}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<HashMap<String,BigDecimal>> obtenerPrecio(@PathVariable("placa") String placa){
@@ -93,8 +90,7 @@ public class VehiculoController {
 		return new ResponseEntity<HashMap<String,BigDecimal>>(cobro, HttpStatus.OK);
 	}
 	
-	//
-	//UPDATE
+	
 	@RequestMapping(value="/vehiculos/{placa}", method = RequestMethod.PATCH, headers = "Accept=application/json")
 	
 	public ResponseEntity<Vehiculo> actualizarVehiculo(@PathVariable("placa") String placa,@RequestBody Vehiculo vehiculo){
@@ -108,7 +104,7 @@ public class VehiculoController {
 		return new ResponseEntity<Vehiculo>(currentVehiculo,HttpStatus.OK);
 	}
 	
-	//DELETE
+	
 	
 	@RequestMapping(value="/vehiculos/{placa}", method = RequestMethod.DELETE, headers = "Accept=application/json")
 	
@@ -126,8 +122,7 @@ public class VehiculoController {
 		
 		return new ResponseEntity<Vehiculo>(HttpStatus.OK);
 	}
-	// insertar Vehiculo 
-	//POST
+
 	@RequestMapping(value="/vehiculos", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<?> guardarVehiculo(@RequestBody Vehiculo vehiculo, UriComponentsBuilder uriComponentsBuilder){
 		

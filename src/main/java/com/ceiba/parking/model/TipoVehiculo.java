@@ -40,7 +40,7 @@ public class TipoVehiculo implements Serializable{
 	private BigDecimal precioDia;
 	public TipoVehiculo() {
 		super();
-		// TODO Auto-generated constructor stub
+	
 	}
 	
 	public TipoVehiculo(Long idTipo) {

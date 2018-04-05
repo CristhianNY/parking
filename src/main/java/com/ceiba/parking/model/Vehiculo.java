@@ -28,7 +28,7 @@ public class Vehiculo implements Serializable{
 	private String placa;
 	@Column(name="cilindraje")
 	private int cilindraje;	
-	//@JsonFormat(pattern="yyyy-MM-dd")
+	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone = "America/Bogota")
 	@Column(name="fecha_entrada")
 	private Date fechaEntrada;
@@ -39,9 +39,7 @@ public class Vehiculo implements Serializable{
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="idTipoVehiculo")	
 	private TipoVehiculo tipoVehiculo;
-	//@ManyToOne(optional= true)
-	//@ManyToOne(fetch=FetchType.EAGER)
-	//@JoinColumn(name="parqueadero_idparqueadero")
+	
 	
 
 	
@@ -56,7 +54,7 @@ public class Vehiculo implements Serializable{
 	}
 	public Vehiculo() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Long getIdvehiculo() {

@@ -30,7 +30,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 	
 	@Override
 	public Vehiculo guardarVehiculo(Vehiculo vehiculo) {
-		// TODO Auto-generated method stub
+		
 		
 		if(verificarCupo(vehiculo)) {	
 		
@@ -66,61 +66,61 @@ public class VehiculoServiceImpl implements VehiculoService {
 
 	@Override
 	public List<Vehiculo> obtenerTodosLosVehiculos() {
-		// TODO Auto-generated method stub
+		
 		return _vehiculoDao.obtenerTodosLosVehiculos();
 	
 	}
 
 	@Override
 	public void eliminarVehiculoPorId(Long idVehiculo) {
-		// TODO Auto-generated method stub
+	
 		_vehiculoDao.eliminarVehiculoPorId(idVehiculo);
 	}
 
 	@Override
 	public void eliminarVehiculoPorPlaca(String placa) {
-		// TODO Auto-generated method stub
+	
 		_vehiculoDao.eliminarVehiculoPorPlaca(placa);
 	}
 
 	@Override
 	public void retirarVehiculo(Vehiculo vehiculo) {
-		// TODO Auto-generated method stub
+	
 		_vehiculoDao.retirarVehiculo(vehiculo);
 	}
 	@Override
 	public void actualizarVehiculoAParqueado(Vehiculo vehiculo) {
-		// TODO Auto-generated method stub
+	
 		vehiculo.setEstado(1);
 		vehiculo.setFechaEntrada(new Date());
 		_vehiculoDao.actualizarVehiculoAParqueado(vehiculo);
 	}
 	@Override
 	public Vehiculo obtenerVehiculoPorId(Long idVehiculo) {
-		// TODO Auto-generated method stub
+		
 		return _vehiculoDao.obtenerVehiculoPorId(idVehiculo);
 	}
 
 	@Override
 	public Vehiculo obtenerVehiculoPorCilindraje(String cilindraje) {
-		// TODO Auto-generated method stub
+		
 		return _vehiculoDao.obtenerVehiculoPorCilindraje(cilindraje);
 	}
 	@Override
 	public Vehiculo obtenerVehiculoPorPlacaParqueado(String placa) {
-		// TODO Auto-generated method stub
+		
 		return _vehiculoDao.obtenerVehiculoPorPlacaParqueado(placa);
 	}
 
 	@Override
 	public Vehiculo obtenerVehiculoPorPlaca(String placa) {
-		// TODO Auto-generated method stub
+		
 		return _vehiculoDao.obtenerVehiculoPorPlaca(placa);
 	}
 	
 	@Override
 	public Vehiculo obtenerVehiculoGuardadoSinParquear(String placa) {
-		// TODO Auto-generated method stub
+		
 		return _vehiculoDao.obtenerVehiculoGuardadoSinParquear(placa);
 	}
 
@@ -128,12 +128,12 @@ public class VehiculoServiceImpl implements VehiculoService {
 	
 	@Override
 	public int obtenerCantidadDeVehiculosMotos() {
-		// TODO Auto-generated method stub
+		
 		return _vehiculoDao.obtenerCantidadDeVehiculosMotos();
 	}
 	@Override
 	public int obtenerCantidadDeVehiculosCarros() {
-		// TODO Auto-generated method stub
+	
 		return _vehiculoDao.obtenerCantidadDeVehiculosCarros();
 	}
 
@@ -163,7 +163,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 			 return bd_map;
 		 }
 		 bd_map.put("precio", calcularPrecioSegunTiempo(calcularHoraVehiculoParqueado(vehiculo.getFechaEntrada(),LocalDateTime.now()),vehiculo));
-		//return calcularPrecioSegunTiempo(calcularHoraVehiculoParqueado(vehiculo.getFechaEntrada()),vehiculo);
+		
 		 return bd_map;
 	}
 
@@ -181,14 +181,13 @@ public class VehiculoServiceImpl implements VehiculoService {
 	}
 	
 	private BigDecimal calcularPrecioPorDia(float dia, Vehiculo vehiculo) {
-		// TODO Auto-generated method stub
+	
 		precioDeDia = vehiculo.getTipoVehiculo().getPrecioDia().multiply(BigDecimal.valueOf(dia));
 		
 		return precioDeDia;
 	}
 
-	//x = a valor de los decimales 
-	//h = horas
+
 
 	public BigDecimal calcularPrecioSegunTiempo(double horas,Vehiculo vehiculo) {
 		

@@ -15,7 +15,6 @@ public class CustomErrorType {
 		return errorMenssage;
 	}
 
-	//Eliminar no lo usaremos
 	public void setErrorMenssage(String errorMenssage) {
 		this.errorMenssage = errorMenssage;
 	}
