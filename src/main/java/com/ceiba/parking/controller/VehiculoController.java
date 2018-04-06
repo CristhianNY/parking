@@ -45,9 +45,7 @@ public class VehiculoController {
 			return new ResponseEntity(new CustomErrorType("Ningun Dato retornado"),HttpStatus.CONFLICT);
 		}
 		
-		if(vehiculos == null) {
-			return new ResponseEntity(new CustomErrorType("Ya Esta parqueado"),HttpStatus.CONFLICT);
-		}
+	
 		
 		return new  ResponseEntity<List<Vehiculo>>(vehiculos,HttpStatus.OK);
 	
