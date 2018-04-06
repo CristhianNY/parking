@@ -158,7 +158,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 		 float h2 = dia%1;
 		 
 		 if(h2>= 0.375) {
-			 dia = (int)dia+1;
+			 dia = (float)dia+1;
 			 bd_map.put("precio", calcularPrecioPorDia(dia,vehiculo));
 			 return bd_map;
 		 }
