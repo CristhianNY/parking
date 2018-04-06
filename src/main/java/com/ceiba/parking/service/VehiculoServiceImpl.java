@@ -149,7 +149,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 			
 		HashMap<String, BigDecimal> bd_map = new HashMap<>();
 		
-		if(vehiculo.getCilindraje()>= Constans.Cilindraje) {
+		if(vehiculo.getCilindraje()>= Constans.CILINDRAJE) {
 			return calcularPrecioMotosDeMasDe500(vehiculo, bd_map);
 		}
 		double horas= calcularHoraVehiculoParqueado(vehiculo.getFechaEntrada(),LocalDateTime.now());
@@ -199,9 +199,9 @@ public class VehiculoServiceImpl implements VehiculoService {
 		
 		float days = (float) horas/24;
 		int dias = (int)days;
-		int h = (int)horas%Constans.valorDia;
+		int h = (int)horas%Constans.VALORDIA;
 		
-		if(h == Constans.valorMedioDia) {
+		if(h == Constans.VALORMEDIODIA) {
 			
 			return vehiculo.getTipoVehiculo().getPrecioDia().multiply(BigDecimal.valueOf(dias));
 			
