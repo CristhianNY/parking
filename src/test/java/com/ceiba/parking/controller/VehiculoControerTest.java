@@ -54,13 +54,13 @@ public class VehiculoControerTest {
 	public void testBuscarVehiculoPorPlaca() throws Exception{	    
 	    ResultMatcher ok = MockMvcResultMatchers.status()
                 .isOk();
-	    ResultMatcher idVehiculo = MockMvcResultMatchers.jsonPath("$.idvehiculo", Matchers.is(32));
-	    ResultMatcher placa = MockMvcResultMatchers.jsonPath("$.placa", Matchers.is("56"));
-	    ResultMatcher cilindraje = MockMvcResultMatchers.jsonPath("$.cilindraje", Matchers.is(0));
-	    ResultMatcher fechaEntrada = MockMvcResultMatchers.jsonPath("$.fechaEntrada", Matchers.is("2018-04-05 08:30"));
+	    ResultMatcher idVehiculo = MockMvcResultMatchers.jsonPath("$.idvehiculo", Matchers.is(122));
+	    ResultMatcher placa = MockMvcResultMatchers.jsonPath("$.placa", Matchers.is("MOTO"));
+	    ResultMatcher cilindraje = MockMvcResultMatchers.jsonPath("$.cilindraje", Matchers.is(250));
+	    ResultMatcher fechaEntrada = MockMvcResultMatchers.jsonPath("$.fechaEntrada", Matchers.is("2018-04-06 09:49"));
 	    ResultMatcher estado = MockMvcResultMatchers.jsonPath("$.estado", Matchers.is(1));
 
-	    	MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v1/vehiculos/56");
+	    	MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v1/vehiculos/122");
 	    	this.mockMvc.perform(builder)
 	    	.andExpect(ok)
 	    	.andExpect(idVehiculo)
