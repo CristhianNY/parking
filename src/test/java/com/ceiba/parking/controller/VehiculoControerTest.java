@@ -60,7 +60,7 @@ public class VehiculoControerTest {
 	    ResultMatcher fechaEntrada = MockMvcResultMatchers.jsonPath("$.fechaEntrada", Matchers.is("2018-04-06 09:49"));
 	    ResultMatcher estado = MockMvcResultMatchers.jsonPath("$.estado", Matchers.is(1));
 
-	    	MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v1/vehiculos/122");
+	    	MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v1/vehiculos/MOTO");
 	    	this.mockMvc.perform(builder)
 	    	.andExpect(ok)
 	    	.andExpect(idVehiculo)
