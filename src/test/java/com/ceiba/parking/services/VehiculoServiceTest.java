@@ -4,7 +4,9 @@ package com.ceiba.parking.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -127,6 +129,24 @@ public class VehiculoServiceTest {
       assertThat(v).hasFieldOrPropertyWithValue("estado", 1);     
       
 	 	
+	}
+	@Transactional
+	@Test
+	public void obtenerCantidadDeVehiculosCarrosTest() throws Exception {
+	
+		int cantidad = vehiculoservice.obtenerCantidadDeVehiculosCarros();
+	// assert
+		assertTrue(cantidad>0);
+		assertNotNull(cantidad);
+	}
+	@Transactional
+	@Test
+	public void obtenerCantidadDeVehiculosMotosTest() throws Exception {
+	
+		int cantidad = vehiculoservice.obtenerCantidadDeVehiculosMotos();
+
+		assertTrue(cantidad>0);
+		assertNotNull(cantidad);
 	}
 	
 

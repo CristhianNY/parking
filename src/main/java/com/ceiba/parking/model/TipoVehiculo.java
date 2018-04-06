@@ -33,7 +33,7 @@ public class TipoVehiculo implements Serializable{
 	@Column(name="tipo")
 	private String tipo;
 	@OneToMany(mappedBy="tipoVehiculo")		
-	private Collection<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
+	private Collection<Vehiculo> vehiculos = new ArrayList<>();
 	@Column(name="precioHora")
 	private BigDecimal precioHora;
 	@Column(name="precioDia")
