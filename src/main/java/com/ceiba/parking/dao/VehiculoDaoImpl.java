@@ -30,23 +30,9 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 		
 	}
 
-	@Override
-	public void eliminarVehiculoPorId(Long idVehiculo) {
 	
-		Vehiculo vehiculo = obtenerVehiculoPorId(idVehiculo);
-		if(vehiculo!=null) {
-			getSession().delete(vehiculo);
-		}
-	}
 	
-	@Override
-	public void eliminarVehiculoPorPlaca(String placa) {
-	
-		Vehiculo vehiculo = obtenerVehiculoPorPlaca(placa);
-		if(vehiculo!=null) {
-			getSession().delete(vehiculo);
-		}
-	}
+
 
 	@Override
 	public void retirarVehiculo(Vehiculo vehiculo) {
@@ -63,12 +49,7 @@ public class VehiculoDaoImpl extends AbstractSession  implements VehiculoDao {
 		getSession().update(vehiculo);
 		
 	}
-	@Override
-	public Vehiculo obtenerVehiculoPorId(Long idVehiculo) {
-		
-		
-		return (Vehiculo)getSession().get(Vehiculo.class, idVehiculo);
-	}
+
 
 	@Override
 	public Vehiculo obtenerVehiculoPorCilindraje(String cilindraje) {

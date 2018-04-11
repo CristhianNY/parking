@@ -54,10 +54,10 @@ public class VehiculoControerTest {
 	public void testBuscarVehiculoPorPlaca() throws Exception{	    
 	    ResultMatcher ok = MockMvcResultMatchers.status()
                 .isOk();
-	    ResultMatcher idVehiculo = MockMvcResultMatchers.jsonPath("$.idvehiculo", Matchers.is(122));
+	    ResultMatcher idVehiculo = MockMvcResultMatchers.jsonPath("$.idvehiculo", Matchers.is(2));
 	    ResultMatcher placa = MockMvcResultMatchers.jsonPath("$.placa", Matchers.is("MOTO"));
 	    ResultMatcher cilindraje = MockMvcResultMatchers.jsonPath("$.cilindraje", Matchers.is(250));
-	    ResultMatcher fechaEntrada = MockMvcResultMatchers.jsonPath("$.fechaEntrada", Matchers.is("2018-04-06 09:49"));
+	    ResultMatcher fechaEntrada = MockMvcResultMatchers.jsonPath("$.fechaEntrada", Matchers.is("2018-04-10 10:46"));
 	    ResultMatcher estado = MockMvcResultMatchers.jsonPath("$.estado", Matchers.is(1));
 
 	    	MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/v1/vehiculos/MOTO");

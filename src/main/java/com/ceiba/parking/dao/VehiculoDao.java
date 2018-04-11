@@ -9,14 +9,14 @@ public interface VehiculoDao {
 	
 	List<Vehiculo> obtenerTodosLosVehiculos();
 	
-	void eliminarVehiculoPorId(Long idVehiculo);
-	void eliminarVehiculoPorPlaca(String placa);
+	
+	
 	
 	
 	void retirarVehiculo(Vehiculo vehiculo);
 	void actualizarVehiculoAParqueado(Vehiculo vehiculo);
 	
-    Vehiculo obtenerVehiculoPorId(Long idVehiculo);
+  
     
     Vehiculo obtenerVehiculoPorCilindraje(String  cilindraje );
     Vehiculo obtenerVehiculoPorPlaca(String  placa );

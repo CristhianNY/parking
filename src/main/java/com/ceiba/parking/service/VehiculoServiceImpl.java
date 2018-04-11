@@ -22,8 +22,11 @@ import com.ceiba.parking.util.Constans;
 @Transactional
 public class VehiculoServiceImpl implements VehiculoService {
 
-	@Autowired
 	private VehiculoDao _vehiculoDao;
+	@Autowired
+	public VehiculoServiceImpl(VehiculoDao vehiculoDao) {
+		this._vehiculoDao = vehiculoDao;
+	}
 	
 	private BigDecimal precioDeDia;
 	private BigDecimal precioXHora;
@@ -32,8 +35,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 	public Vehiculo guardarVehiculo(Vehiculo vehiculo) {
 		
 		
-		if(verificarCupo(vehiculo)) {	
-		
+		if(verificarCupo(vehiculo)) {		
 		
 		if(verificarExistenciaVehiculoParqueado(vehiculo.getPlaca())) {
 			return null;
@@ -71,17 +73,9 @@ public class VehiculoServiceImpl implements VehiculoService {
 	
 	}
 
-	@Override
-	public void eliminarVehiculoPorId(Long idVehiculo) {
-	
-		_vehiculoDao.eliminarVehiculoPorId(idVehiculo);
-	}
 
-	@Override
-	public void eliminarVehiculoPorPlaca(String placa) {
-	
-		_vehiculoDao.eliminarVehiculoPorPlaca(placa);
-	}
+
+
 
 	@Override
 	public void retirarVehiculo(Vehiculo vehiculo) {
@@ -95,11 +89,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 		vehiculo.setFechaEntrada(new Date());
 		_vehiculoDao.actualizarVehiculoAParqueado(vehiculo);
 	}
-	@Override
-	public Vehiculo obtenerVehiculoPorId(Long idVehiculo) {
-		
-		return _vehiculoDao.obtenerVehiculoPorId(idVehiculo);
-	}
+	
 
 	@Override
 	public Vehiculo obtenerVehiculoPorCilindraje(String cilindraje) {
@@ -267,10 +257,10 @@ public class VehiculoServiceImpl implements VehiculoService {
 		   
 	   }
 	   
-	   
+	   @Override
 	   public boolean verificarExistenciaVehiculoParqueado(String placa) {
 		   
-		   Vehiculo v =  obtenerVehiculoPorPlacaParqueado(placa);
+		   Vehiculo v =   _vehiculoDao.obtenerVehiculoPorPlacaParqueado(placa);
 		   
 		   if(v != null) {
 			   return true;
@@ -279,7 +269,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 	   }
 	   
 	   
-	   
+	   @Override
 	   public boolean verificarCupo(Vehiculo vehiculo) {
 		   
 		   Long tipo = vehiculo.getTipoVehiculo().getIdTipo();

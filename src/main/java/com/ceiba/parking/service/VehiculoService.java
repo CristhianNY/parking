@@ -16,12 +16,10 @@ Vehiculo guardarVehiculo(Vehiculo vehiculo);
 	
 	List<Vehiculo> obtenerTodosLosVehiculos();
 	
-	void eliminarVehiculoPorId(Long idVehiculo);
-	void eliminarVehiculoPorPlaca(String placa);
+	
 	
 	void retirarVehiculo(Vehiculo vehiculo);
 	void actualizarVehiculoAParqueado(Vehiculo vehiculo);
-    Vehiculo obtenerVehiculoPorId(Long idVehiculo);
     Vehiculo obtenerVehiculoPorCilindraje(String  cilindraje );
     Vehiculo obtenerVehiculoPorPlaca(String placa);
     Vehiculo obtenerVehiculoGuardadoSinParquear(String placa);
@@ -32,6 +30,9 @@ Vehiculo guardarVehiculo(Vehiculo vehiculo);
 	BigDecimal calcularPrecioSegunTiempo(double horas,Vehiculo vehiculo);
 	boolean verificarPlacaQueIniciaConA(String placa);
 	boolean verificarSiEsDomingoOLunes(Date fechaEntrada);
+	boolean verificarExistenciaVehiculoParqueado(String placa);
 	Vehiculo obtenerVehiculoPorPlacaParqueado(String  placa );
+	
+	boolean verificarCupo(Vehiculo vehiculo);
 	
 }
